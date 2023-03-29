@@ -1,0 +1,20 @@
+{
+    "extends": "@vue/tsconfig/tsconfig.web.json",
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "isolatedModules": true,
+        "jsxImportSource": "preact",
+        "importsNotUsedAsValues": "preserve",
+        "paths": {
+            "~/src/*": [
+                "./src/*"
+            ],
+            "components/*": [
+                "./src/components/*"
+            ],
+            "stores/*": [
+                "./src/stores/*"
+            ]
+        }
+    }
+}

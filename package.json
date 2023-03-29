@@ -1,0 +1,33 @@
+{
+  "name": "evony-undead-tool",
+  "version": "0.1.0",
+  "description": "Undead Invasion Reinforcment Management Tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Derrick Gall",
+  "license": "MIT",
+  "dependencies": {
+    "@picocss/pico": "^1.5.7",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "eslint": "^8.36.0",
+    "eslint-plugin-vue": "^9.10.0",
+    "papaparse": "^5.4.1",
+    "parcel": "^2.8.3",
+    "pinia": "^2.0.33",
+    "vue": "^3.2.47",
+    "vue-material-design-icons": "^5.2.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.3",
+    "@parcel/transformer-vue": "^2.8.3",
+    "@types/papaparse": "^5.3.7",
+    "@vue/tsconfig": "^0.1.3",
+    "vue-template-compiler": "^2.7.14"
+  },
+  "alias": {
+    "components": "./src/components",
+    "stores": "./src/stores"
+  }
+}
