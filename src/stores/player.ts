@@ -73,6 +73,9 @@ export const usePlayerStore = defineStore('player', {
       this.players[playerId].reinforcements.push(reinfPlayerId);
       this.players[reinfPlayerId].isReinforced = true;
     },
+    setParticipation(playerId: string, isParticipant: boolean) {
+      this.players[playerId].isParticipant = isParticipant;
+    },
     unreinforce(playerId: string, reinfPlayerId: string) {
       const player = this.players[playerId];
       const playerIndex = player.reinforcements.findIndex((id) => id === reinfPlayerId);

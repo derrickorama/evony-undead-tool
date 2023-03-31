@@ -17,7 +17,10 @@
           <small class="text-grey">{{ player.id }}</small>
         </td>
         <td>{{ player.keepLevel }}</td>
-        <td>{{ player.isParticipant ? 'Yes' : 'No' }}</td>
+        <td>
+          <input type="checkbox" name="switch" role="switch" :checked="player.isParticipant"
+            @change="setParticipation($event, player.id)">
+        </td>
         <td>{{ player.marches }}</td>
         <td :class="{ 'text-negative': !player.isReinforced }">{{
           player.isReinforced
@@ -44,7 +47,7 @@ import Reinforcement from 'components/Reinforcement.vue';
 
 const playerStore = usePlayerStore();
 
-const { hideNonParticipants, nonReinforcedPlayers, playersByKeepLevel } = storeToRefs(playerStore);
+const { hideNonParticipants, playersByKeepLevel } = storeToRefs(playerStore);
 
 const players = computed(() => {
   if (hideNonParticipants.value) {
@@ -52,4 +55,9 @@ const players = computed(() => {
   }
   return playersByKeepLevel.value;
 });
+
+function setParticipation(event: Event, playerId: string) {
+  const input = <HTMLInputElement>event.target;
+  playerStore.setParticipation(playerId, input.checked);
+}
 </script>
