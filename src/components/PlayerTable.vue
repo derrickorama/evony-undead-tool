@@ -21,7 +21,16 @@
           <input type="checkbox" name="switch" role="switch" :checked="player.isParticipant"
             @change="setParticipation($event, player.id)">
         </td>
-        <td>{{ player.marches }}</td>
+        <td>
+          <select v-model="player.marches">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+        </td>
         <td :class="{ 'text-negative': !player.isReinforced }">{{
           player.isReinforced
           ? 'Yes' : 'No' }}</td>
@@ -30,7 +39,7 @@
             <Reinforcement v-for="playerId in player.reinforcements" :player-id="player.id" :reinf-player-id="playerId" />
           </div>
           <PlayerSelector :class="{ 'q-mt-sm': player.reinforcements.length }" :player-id="player.id"
-            :show-select="player.marches - player.reinforcements.length > 0" :show-add="player.reinforcements.length < 6"
+            :show-select="player.marches - player.reinforcements.length > 0"
             @select="playerStore.reinforce(player.id, $event)" />
         </td>
       </tr>

@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import Papa from 'papaparse';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 
@@ -17,12 +18,12 @@ const form: Ref<HTMLFormElement | null> = ref(null);
 
 async function loadCSV(event: Event) {
   const input = <HTMLInputElement>event.target;
-  const file = input.files?.item(0)
+  const file = input.files?.item(0);
   const text = await file?.text() || '';
 
-  const rows = text.split('\n').filter((row) => row.trim()).map((row: string) => row.split(','))
+  const csv = Papa.parse(text);
 
-  emit('input', rows);
+  emit('input', csv.data);
 
   form.value?.reset();
 }
