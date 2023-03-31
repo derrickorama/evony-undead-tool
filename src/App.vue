@@ -13,8 +13,9 @@
         non-participants
       </label>
     </article>
-    <NegativeBanner v-if="nonReinforcedPlayers.length"
-      :message="`${nonReinforcedPlayers.length} players are not reinforced.`" />
+    <NegativeBanner v-if="nonReinforcedPlayers.length" centered
+      :message="`${nonReinforcedPlayers.length} players are not reinforced`" />
+    <AutoReinforceButton />
     <PlayerTable />
   </div>
 </template>
@@ -25,6 +26,7 @@ import './css/app.scss';
 
 import { storeToRefs } from 'pinia';
 import { usePlayerStore } from 'stores/player';
+import AutoReinforceButton from 'components/AutoReinforceButton.vue';
 import CSVLoader from 'components/CSVLoader.vue';
 import CSVSaver from 'components/CSVSaver.vue';
 import PlayerTable from 'components/PlayerTable.vue';
@@ -52,8 +54,6 @@ async function loadPlayers(rows: Array<any[]>) {
       isReinforced: false,
     });
   })
-
-  playerStore.autoReinforce();
 }
 
 function changeParticipantView(event: Event) {

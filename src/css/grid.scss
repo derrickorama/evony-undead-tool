@@ -2,8 +2,14 @@
   display: flex;
 }
 
-.justify-center {
-  justify-items: center;
+.justify {
+  &-center {
+    justify-content: center;
+  }
+
+  &-end {
+    justify-content: flex-end;
+  }
 }
 
 .items-center {

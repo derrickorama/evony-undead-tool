@@ -6,6 +6,9 @@ export const usePlayerStore = defineStore('player', {
     players: {} as { [playerId: string]: Player },
   }),
   getters: {
+    hasPlayers(state) {
+      return Object.keys(state).length > 0;
+    },
     nonReinforcedPlayers(): Player[] {
       return this.playersByName.filter(({ isReinforced }) => !isReinforced);
     },

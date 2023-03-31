@@ -69,3 +69,9 @@ select {
 .cursor-pointer {
     cursor: pointer;
 }
+
+a.disabled {
+    cursor: not-allowed;
+    background-color: grey;
+    border: 0;
+}
