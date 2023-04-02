@@ -55,7 +55,7 @@ async function loadPlayers(rows: Array<any[]>) {
   playerStore.clear();
 
   rows.forEach((row: string[]) => {
-    const [id, name, keepLevel, isParticipant, marches, isInEarlyGroup, hiveReinforcements = '', mountainReinforcements = ''] = row;
+    const [id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, hiveReinforcements = '', mountainReinforcements = ''] = row;
 
     return playerStore.add(<Player>{
       isInEarlyGroup: isInEarlyGroup === 'true',
@@ -67,6 +67,7 @@ async function loadPlayers(rows: Array<any[]>) {
       mountainReinforcements: mountainReinforcements.trim() ? mountainReinforcements.split(',') : [],
       isParticipant: isParticipant === 'true',
       isReinforced: false,
+      isXxl: isXxl === 'true',
     });
   })
 

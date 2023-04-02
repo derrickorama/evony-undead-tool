@@ -13,9 +13,9 @@ import ContentSave from 'vue-material-design-icons/ContentSave';
 const { playersByKeepLevel } = storeToRefs(usePlayerStore())
 
 function save() {
-  const players = playersByKeepLevel.value.map(({ id, name, keepLevel, isParticipant, marches, isInEarlyGroup, hiveReinforcements, mountainReinforcements }) => {
+  const players = playersByKeepLevel.value.map(({ id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, hiveReinforcements, mountainReinforcements }) => {
     return {
-      id, name, keepLevel, isParticipant, marches, isInEarlyGroup, hiveReinforcements, mountainReinforcements
+      id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, hiveReinforcements, mountainReinforcements
     }
   })
 

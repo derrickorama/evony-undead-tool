@@ -2,9 +2,9 @@
   <table>
     <thead>
       <tr>
+        <th>Participant</th>
         <th>Player</th>
         <th>Keep Level</th>
-        <th>Participant</th>
         <th>Marches</th>
         <th>In Early Group</th>
         <th>Is Reinforced</th>
@@ -14,14 +14,17 @@
     <tbody>
       <tr v-for="player in players" :key="player.name">
         <td>
-          <div>{{ player.name }}</div>
-          <small class="text-grey">{{ player.id }}</small>
-        </td>
-        <td>{{ player.keepLevel }}</td>
-        <td>
           <input type="checkbox" name="switch" role="switch" :checked="player.isParticipant"
             @change="setParticipation($event, player.id)">
         </td>
+        <td>
+          <div>{{ player.name }}</div>
+          <small class="text-grey">{{ player.id }}</small>
+          <div>
+            <SizeXxl v-if="player.isXxl" />
+          </div>
+        </td>
+        <td>{{ player.keepLevel }}</td>
         <td>
           <select v-model="player.marches">
             <option value="1">1</option>
@@ -36,9 +39,10 @@
           <input type="checkbox" name="switch" role="switch" :checked="player.isInEarlyGroup"
             @change="setInEarlyGroup($event, player.id)">
         </td>
-        <td :class="{ 'text-negative': !player.isReinforced }">{{
-          player.isReinforced
-          ? 'Yes' : 'No' }}</td>
+        <td :class="{ 'text-negative': !player.isReinforced && !player.isXxl }">
+          <div v-if="!player.isXxl">{{ player.isReinforced ? 'Yes' : 'No' }}</div>
+          <div v-else class="text-grey">Too Big</div>
+        </td>
         <td>
           <div>
             <Reinforcement v-for="playerId in player[reinforcementGroup]" :player-id="player.id"
@@ -57,6 +61,7 @@
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { usePlayerStore } from 'stores/player';
+import SizeXxl from 'vue-material-design-icons/SizeXxl';
 import PlayerSelector from 'components/PlayerSelector.vue';
 import Reinforcement from 'components/Reinforcement.vue';
 

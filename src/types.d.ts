@@ -4,11 +4,10 @@ declare type Player = {
     isInEarlyGroup: boolean;
     isParticipant: boolean;
     isReinforced: boolean;
+    isXxl: boolean;
     keepLevel: number;
     marches: number;
     mountainReinforcements: string[];
     name: string;
     reinforcements: string[];
 }
-
-declare type PlayerProperty = 'id' | 'isParticipant' | 'isReinforced' | 'keepLevel' | 'marches' | 'name' | 'reinforcements';

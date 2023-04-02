@@ -12,7 +12,7 @@ export const usePlayerStore = defineStore('player', {
       return Object.keys(state).length > 0;
     },
     nonReinforcedPlayers(): Player[] {
-      return this.playersByName.filter(({ isReinforced }) => !isReinforced);
+      return this.playersByName.filter(({ isReinforced, isXxl }) => !isReinforced && !isXxl);
     },
     participantPlayers(): Player[] {
       return this.playersByKeepLevel.filter(({ isParticipant }) => isParticipant);
