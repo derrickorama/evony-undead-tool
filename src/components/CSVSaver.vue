@@ -6,20 +6,12 @@
 
 <script setup lang="ts">
 import Papa from 'papaparse';
-import { storeToRefs } from 'pinia';
-import { usePlayerStore } from 'stores/player';
 import ContentSave from 'vue-material-design-icons/ContentSave';
 
-const { playersByKeepLevel } = storeToRefs(usePlayerStore())
+const props = defineProps<{ rows: unknown[] }>();
 
 function save() {
-  const players = playersByKeepLevel.value.map(({ id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, hiveReinforcements, mountainReinforcements }) => {
-    return {
-      id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, hiveReinforcements, mountainReinforcements
-    }
-  })
-
-  const file = new Blob([Papa.unparse(players)], { type: 'text/csv' });
+  const file = new Blob([Papa.unparse(props.rows)], { type: 'text/csv' });
   const a = document.createElement("a");
   const url = URL.createObjectURL(file);
   a.href = url;

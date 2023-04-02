@@ -2,13 +2,13 @@
   <div class="container">
     <h1 class="mt-xl text-center">Undead Invasion Reinforcment Management Tool</h1>
     <div class="row">
-      <CSVLoader class="full-width mb-none mr-sm" @input="loadPlayers" />
+      <PlanLoader class="full-width mb-none mr-sm" />
       <div class="row">
         <div class="mr-sm">
           <TextList />
         </div>
         <div>
-          <CSVSaver />
+          <PlanSaver />
         </div>
       </div>
     </div>
@@ -36,10 +36,10 @@ import { storeToRefs } from 'pinia';
 import { ref, type Ref } from 'vue';
 import { usePlayerStore } from 'stores/player';
 import AutoReinforceButton from 'components/AutoReinforceButton.vue';
-import CSVLoader from 'components/CSVLoader.vue';
-import CSVSaver from 'components/CSVSaver.vue';
 import NegativeBanner from 'components/NegativeBanner.vue';
 import Options from 'components/Options.vue';
+import PlanLoader from 'components/PlanLoader.vue';
+import PlanSaver from 'components/PlanSaver.vue';
 import PlayerTable from 'components/PlayerTable.vue';
 import TextList from 'components/TextList.vue';
 
@@ -49,28 +49,5 @@ const playerStore = usePlayerStore();
 
 const { groupView, nonReinforcedPlayers } = storeToRefs(playerStore);
 
-async function loadPlayers(rows: Array<any[]>) {
-  <['id', 'name', 'keepLevel', 'isParticipant', 'marches', 'earlyGroup', 'hiveReinforcements', 'mountainReinforcements']>rows.shift();
 
-  playerStore.clear();
-
-  rows.forEach((row: string[]) => {
-    const [id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, hiveReinforcements = '', mountainReinforcements = ''] = row;
-
-    return playerStore.add(<Player>{
-      isInEarlyGroup: isInEarlyGroup === 'true',
-      id,
-      name,
-      keepLevel: parseInt(keepLevel, 10),
-      marches: parseInt(marches, 10) || 1,
-      hiveReinforcements: hiveReinforcements.trim() ? hiveReinforcements.split(',') : [],
-      mountainReinforcements: mountainReinforcements.trim() ? mountainReinforcements.split(',') : [],
-      isParticipant: isParticipant === 'true',
-      isReinforced: false,
-      isXxl: isXxl === 'true',
-    });
-  })
-
-  playerStore.processPendingReinfs();
-}
 </script>
