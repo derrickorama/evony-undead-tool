@@ -21,9 +21,15 @@ const props = defineProps<{ playerId: string; showSelect: boolean; }>();
 
 const emit = defineEmits(['select']);
 
-const { nonReinforcedPlayers } = storeToRefs(usePlayerStore());
+const { groupView, nonReinforcedPlayers } = storeToRefs(usePlayerStore());
 
-const playerOptions = computed(() => nonReinforcedPlayers.value.filter(({ id }) => id !== props.playerId));
+const playerOptions = computed(() => {
+  const players = nonReinforcedPlayers.value.filter(({ id }) => id !== props.playerId);
+  if (groupView.value === 'early') {
+    return players.filter(({ isInEarlyGroup }) => isInEarlyGroup)
+  }
+  return players;
+});
 
 async function onSelect(event: Event) {
   const element = <HTMLSelectElement>event?.target;

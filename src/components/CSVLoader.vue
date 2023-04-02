@@ -23,7 +23,9 @@ async function loadCSV(event: Event) {
 
   const csv = Papa.parse(text);
 
-  emit('input', csv.data);
+  const cleanedData = csv.data.filter((row) => !(<string[]>row).every((value) => !value))
+
+  emit('input', cleanedData);
 
   form.value?.reset();
 }

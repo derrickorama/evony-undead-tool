@@ -6,6 +6,7 @@
         <th>Keep Level</th>
         <th>Participant</th>
         <th>Marches</th>
+        <th>In Early Group</th>
         <th>Is Reinforced</th>
         <th>Reinforcing</th>
       </tr>
@@ -31,15 +32,20 @@
             <option value="6">6</option>
           </select>
         </td>
+        <td>
+          <input type="checkbox" name="switch" role="switch" :checked="player.isInEarlyGroup"
+            @change="setInEarlyGroup($event, player.id)">
+        </td>
         <td :class="{ 'text-negative': !player.isReinforced }">{{
           player.isReinforced
           ? 'Yes' : 'No' }}</td>
         <td>
           <div>
-            <Reinforcement v-for="playerId in player.reinforcements" :player-id="player.id" :reinf-player-id="playerId" />
+            <Reinforcement v-for="playerId in player[reinforcementGroup]" :player-id="player.id"
+              :reinf-player-id="playerId" />
           </div>
-          <PlayerSelector :class="{ 'q-mt-sm': player.reinforcements.length }" :player-id="player.id"
-            :show-select="player.marches - player.reinforcements.length > 0"
+          <PlayerSelector :class="{ 'q-mt-sm': player[reinforcementGroup].length }" :player-id="player.id"
+            :show-select="player.marches - player[reinforcementGroup].length > 0"
             @select="playerStore.reinforce(player.id, $event)" />
         </td>
       </tr>
@@ -56,14 +62,20 @@ import Reinforcement from 'components/Reinforcement.vue';
 
 const playerStore = usePlayerStore();
 
-const { hideNonParticipants, playersByKeepLevel } = storeToRefs(playerStore);
+const { groupView, hideNonParticipants, playersByKeepLevel, playersInEarlyGroup, reinforcementGroup } = storeToRefs(playerStore);
 
 const players = computed(() => {
+  const playersList = groupView.value === 'early' ? playersInEarlyGroup.value : playersByKeepLevel.value;
   if (hideNonParticipants.value) {
-    return playersByKeepLevel.value.filter(({ isParticipant }) => isParticipant)
+    return playersList.filter(({ isParticipant }) => isParticipant)
   }
-  return playersByKeepLevel.value;
+  return playersList;
 });
+
+function setInEarlyGroup(event: Event, playerId: string) {
+  const input = <HTMLInputElement>event.target;
+  playerStore.setInEarlyGroup(playerId, input.checked);
+}
 
 function setParticipation(event: Event, playerId: string) {
   const input = <HTMLInputElement>event.target;
