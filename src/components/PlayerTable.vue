@@ -4,10 +4,6 @@
       <tr>
         <th>Participant</th>
         <th>Player</th>
-        <th>Keep Level</th>
-        <th>Marches</th>
-        <th>In Early Group</th>
-        <th>Is Reinforced</th>
         <th>Reinforcing</th>
       </tr>
     </thead>
@@ -18,33 +14,21 @@
             @change="setParticipation($event, player.id)">
         </td>
         <td>
-          <div>{{ player.name }}</div>
-          <small class="text-grey">{{ player.id }}</small>
-          <div>
+          <div>{{ player.name }} <small>k.{{ player.keepLevel }}</small></div>
+          <small v-if="false" class="text-grey">{{ player.id }}</small>
+          <div class="row">
             <SizeXxl v-if="player.isXxl" />
+            <ImageFilterHdr v-if="player.isInEarlyGroup" />
+          </div>
+          <div v-if="!player.isReinforced" class="row items-center text-negative">
+            <Alert class="mr-xs" /> Not reinforced
           </div>
         </td>
-        <td>{{ player.keepLevel }}</td>
         <td>
-          <select v-model="player.marches">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-          </select>
-        </td>
-        <td>
-          <input type="checkbox" name="switch" role="switch" :checked="player.isInEarlyGroup"
-            @change="setInEarlyGroup($event, player.id)">
-        </td>
-        <td :class="{ 'text-negative': !player.isReinforced && !player.isXxl }">
-          <div v-if="!player.isXxl">{{ player.isReinforced ? 'Yes' : 'No' }}</div>
-          <div v-else class="text-grey">Too Big</div>
-        </td>
-        <td>
-          <div>
+          <small class="row items-center text-grey">
+            <AccountGroup class="relative mr-xs" size="20px" style="top:-3px" /> {{ player.marches }} marches
+          </small>
+          <div class="mt-sm">
             <Reinforcement v-for="playerId in player[reinforcementGroup]" :player-id="player.id"
               :reinf-player-id="playerId" />
           </div>
@@ -61,6 +45,9 @@
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { usePlayerStore } from 'stores/player';
+import Alert from 'vue-material-design-icons/Alert';
+import AccountGroup from 'vue-material-design-icons/AccountGroup';
+import ImageFilterHdr from 'vue-material-design-icons/ImageFilterHdr';
 import SizeXxl from 'vue-material-design-icons/SizeXxl';
 import PlayerSelector from 'components/PlayerSelector.vue';
 import Reinforcement from 'components/Reinforcement.vue';
