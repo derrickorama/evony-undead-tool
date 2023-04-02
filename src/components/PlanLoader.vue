@@ -25,7 +25,7 @@ async function loadPlayers(rows: Array<any[]>) {
       hiveReinforcements: hiveReinforcements.trim() ? hiveReinforcements.split(',') : [],
       mountainReinforcements: mountainReinforcements.trim() ? mountainReinforcements.split(',') : [],
       isParticipant: isParticipant === 'true',
-      isReinforced: false,
+      isReinforced: isXxl === 'true', // flag as reinforced if XXL
       isXxl: isXxl === 'true',
     });
   })
