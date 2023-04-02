@@ -27,6 +27,13 @@
   }
 }
 
+.px {
+  &-none {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
 .ma {
   &-none {
     margin: 0;

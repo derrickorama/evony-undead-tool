@@ -3,8 +3,13 @@
     <h1 class="mt-xl text-center">Undead Invasion Reinforcment Management Tool</h1>
     <div class="row">
       <CSVLoader class="full-width mb-none mr-sm" @input="loadPlayers" />
-      <div>
-        <CSVSaver />
+      <div class="row">
+        <div class="mr-sm">
+          <TextList />
+        </div>
+        <div>
+          <CSVSaver />
+        </div>
       </div>
     </div>
     <Options />
@@ -36,6 +41,7 @@ import CSVSaver from 'components/CSVSaver.vue';
 import NegativeBanner from 'components/NegativeBanner.vue';
 import Options from 'components/Options.vue';
 import PlayerTable from 'components/PlayerTable.vue';
+import TextList from 'components/TextList.vue';
 
 const group: Ref<'early' | 'hive'> = ref('early');
 
