@@ -9,7 +9,7 @@ import { usePlayerStore } from 'stores/player';
 const playerStore = usePlayerStore();
 
 async function loadPlayers(rows: Array<any[]>) {
-  <['id', 'name', 'keepLevel', 'isParticipant', 'marches', 'earlyGroup', 'hiveReinforcements', 'mountainReinforcements']>rows.shift();
+  <['id', 'name', 'keepLevel', 'isParticipant', 'marches', 'isInEarlyGroup', 'isXxl', 'hiveReinforcements', 'mountainReinforcements']>rows.shift();
 
   playerStore.clear();
 
