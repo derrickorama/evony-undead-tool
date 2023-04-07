@@ -19,7 +19,9 @@
     <article>
       <div class="mb-md">
         <a href="#" class="mr-xl" :role="groupView === 'early' ? 'button' : undefined"
-          @click.prevent="playerStore.viewGroup('early')">Early Group</a>
+          @click.prevent="playerStore.viewGroup('early')">
+          <ImageFilterHdr /> Early Group
+        </a>
         <a href="#" :role="groupView === 'hive' ? 'button' : undefined"
           @click.prevent="playerStore.viewGroup('hive')">Hive Group</a>
       </div>
@@ -35,6 +37,7 @@ import './css/app.scss';
 import { storeToRefs } from 'pinia';
 import { ref, type Ref } from 'vue';
 import { usePlayerStore } from 'stores/player';
+import ImageFilterHdr from 'vue-material-design-icons/ImageFilterHdr';
 import AutoReinforceButton from 'components/AutoReinforceButton.vue';
 import NegativeBanner from 'components/NegativeBanner.vue';
 import Options from 'components/Options.vue';
