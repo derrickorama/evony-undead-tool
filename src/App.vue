@@ -22,8 +22,9 @@
             @click.prevent="playerStore.viewGroup('early')">
             <ImageFilterHdr /> Early Group
           </a>
-          <a href="#" :role="groupView === 'hive' ? 'button' : undefined"
-            @click.prevent="playerStore.viewGroup('hive')">Hive Group</a>
+          <a href="#" :role="groupView === 'hive' ? 'button' : undefined" @click.prevent="playerStore.viewGroup('hive')">
+            <BeehiveOutline /> Hive Group
+          </a>
         </div>
         <div>
           <Options />
@@ -41,6 +42,7 @@ import './css/app.scss';
 import { storeToRefs } from 'pinia';
 import { ref, type Ref } from 'vue';
 import { usePlayerStore } from 'stores/player';
+import BeehiveOutline from 'vue-material-design-icons/BeehiveOutline';
 import ImageFilterHdr from 'vue-material-design-icons/ImageFilterHdr';
 import AutoReinforceButton from 'components/AutoReinforceButton.vue';
 import NegativeBanner from 'components/NegativeBanner.vue';
