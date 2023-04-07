@@ -1,12 +1,8 @@
 <template>
-  <article class="column mt-none pa-sm text-body2">
-    <div>
-      <label>
-        <input :checked="hideNonParticipants" type="checkbox" @change="changeParticipantView"> Hide
-        non-participants
-      </label>
-    </div>
-  </article>
+  <label class="row items-end">
+    <input :checked="hideNonParticipants" type="checkbox" @change="changeParticipantView">
+    <small class="mb-none">Hide non-participants</small>
+  </label>
 </template>
 
 <script setup lang="ts">

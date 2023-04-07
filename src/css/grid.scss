@@ -3,6 +3,10 @@
 }
 
 .justify {
+  &-between {
+    justify-content: space-between;
+  }
+
   &-center {
     justify-content: center;
   }
@@ -12,6 +16,12 @@
   }
 }
 
-.items-center {
-  align-items: center;
+.items {
+  &-center {
+    align-items: center;
+  }
+
+  &-end {
+    align-items: flex-end;
+  }
 }

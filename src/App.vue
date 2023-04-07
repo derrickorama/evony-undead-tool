@@ -12,18 +12,22 @@
         </div>
       </div>
     </div>
-    <Options />
     <NegativeBanner v-if="nonReinforcedPlayers.length" centered
       :message="`${nonReinforcedPlayers.length} players are not reinforced`" />
     <AutoReinforceButton />
     <article>
-      <div class="mb-md">
-        <a href="#" class="mr-xl" :role="groupView === 'early' ? 'button' : undefined"
-          @click.prevent="playerStore.viewGroup('early')">
-          <ImageFilterHdr /> Early Group
-        </a>
-        <a href="#" :role="groupView === 'hive' ? 'button' : undefined"
-          @click.prevent="playerStore.viewGroup('hive')">Hive Group</a>
+      <div class="row justify-between">
+        <div class="mb-md">
+          <a href="#" class="mr-xl" :role="groupView === 'early' ? 'button' : undefined"
+            @click.prevent="playerStore.viewGroup('early')">
+            <ImageFilterHdr /> Early Group
+          </a>
+          <a href="#" :role="groupView === 'hive' ? 'button' : undefined"
+            @click.prevent="playerStore.viewGroup('hive')">Hive Group</a>
+        </div>
+        <div>
+          <Options />
+        </div>
       </div>
       <PlayerTable :group="group" />
     </article>
