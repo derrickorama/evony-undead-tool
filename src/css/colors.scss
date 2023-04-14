@@ -1,0 +1,38 @@
+.bg {
+  &-grey {
+    background-color: grey;
+  }
+
+  &-negative {
+    background-color: rgb(255, 180, 180);
+  }
+}
+
+.text {
+  &-light-grey {
+    color: lightgrey;
+  }
+
+  &-grey {
+    color: grey;
+  }
+
+  &-positive {
+    color: green;
+  }
+
+  &-negative {
+    color: red;
+  }
+
+  &-white {
+    color: white;
+  }
+}
+
+[role="button"] {
+  &.negative {
+    border-color: rgb(196, 47, 47);
+    background-color: rgb(240, 70, 70);
+  }
+}

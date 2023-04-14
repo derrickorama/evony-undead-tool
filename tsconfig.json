@@ -2,15 +2,17 @@
     "extends": "@vue/tsconfig/tsconfig.web.json",
     "compilerOptions": {
         "experimentalDecorators": true,
-        "isolatedModules": true,
         "jsxImportSource": "preact",
-        "importsNotUsedAsValues": "preserve",
+        "verbatimModuleSyntax": true,
         "paths": {
             "~/src/*": [
                 "./src/*"
             ],
             "components/*": [
                 "./src/components/*"
+            ],
+            "composables/*": [
+                "./src/composables/*"
             ],
             "stores/*": [
                 "./src/stores/*"

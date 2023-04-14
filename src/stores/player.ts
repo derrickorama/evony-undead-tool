@@ -67,9 +67,6 @@ export const usePlayerStore = defineStore('player', {
         this.pendingReinfs.push(playerId);
       })
     },
-    clear() {
-      this.players = {};
-    },
     autoReinforce() {
       const playersReversed = [...this.participantPlayers].filter(({ isInEarlyGroup }) => {
         if (this.groupView === 'early') {
@@ -101,6 +98,19 @@ export const usePlayerStore = defineStore('player', {
         }
       })
     },
+    clear() {
+      this.players = {};
+    },
+    deletePlayer(playerId: string) {
+      const player = this.players[playerId];
+
+      // Un-reinforce players
+      [...player.hiveReinforcements, ...player.mountainReinforcements].forEach((playerId) => {
+        this.players[playerId].isReinforced = false;
+      })
+
+      delete this.players[playerId];
+    },
     processPendingReinfs() {
       this.pendingReinfs.forEach((playerId) => {
         this.players[playerId].isReinforced = true;
@@ -122,6 +132,12 @@ export const usePlayerStore = defineStore('player', {
       const playerIndex = player[this.reinforcementGroup].findIndex((id) => id === reinfPlayerId);
       player[this.reinforcementGroup].splice(playerIndex, 1);
       this.players[reinfPlayerId].isReinforced = false;
+    },
+    updatePlayer(playerId: string, updates: { keepLevel?: number, name?: string }) {
+      this.players[playerId] = {
+        ...this.players[playerId],
+        ...updates,
+      };
     },
     viewGroup(group: 'early' | 'hive') {
       this.groupView = group;

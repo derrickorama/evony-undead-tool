@@ -14,7 +14,11 @@
             @change="setParticipation($event, player.id)">
         </td>
         <td>
-          <div>{{ player.name }} <small>k.{{ player.keepLevel }}</small></div>
+          <div class="row items-end">
+            <span class="mr-xs">{{ player.name }} </span>
+            <small class="mr-xs">k.{{ player.keepLevel }}</small>
+            <EditButton :player="player" />
+          </div>
           <small v-if="false" class="text-grey">{{ player.id }}</small>
           <div class="row">
             <SizeXxl v-if="player.isXxl" />
@@ -26,7 +30,7 @@
         </td>
         <td>
           <small class="row items-center text-grey">
-            <AccountGroup class="relative mr-xs" size="20px" style="top:-3px" /> {{ player.marches }} marches
+            <AccountGroup class="relative mr-xs" :size="20" style="top:-3px" /> {{ player.marches }} marches
           </small>
           <div class="mt-sm">
             <Reinforcement v-for="playerId in player[reinforcementGroup]" :player-id="player.id"
@@ -49,6 +53,7 @@ import Alert from 'vue-material-design-icons/Alert';
 import AccountGroup from 'vue-material-design-icons/AccountGroup';
 import ImageFilterHdr from 'vue-material-design-icons/ImageFilterHdr';
 import SizeXxl from 'vue-material-design-icons/SizeXxl';
+import EditButton from 'components/EditButton.vue';
 import PlayerSelector from 'components/PlayerSelector.vue';
 import Reinforcement from 'components/Reinforcement.vue';
 
@@ -74,3 +79,9 @@ function setParticipation(event: Event, playerId: string) {
   playerStore.setParticipation(playerId, input.checked);
 }
 </script>
+
+<style scoped lang="scss">
+.edit {
+  font-size: 0.8em;
+}
+</style>

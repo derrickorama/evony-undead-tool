@@ -1,45 +1,10 @@
 @import './vars';
+@import './colors';
 @import './spacing';
 @import './grid';
 
 .italic {
   font-style: italic;
-}
-
-.bg {
-  &-grey {
-    background-color: grey;
-  }
-
-  &-negative {
-    background-color: rgb(255, 180, 180);
-  }
-}
-
-.text {
-  &-body2 {
-    font-size: 0.9em;
-  }
-
-  &-grey {
-    color: grey;
-  }
-
-  &-positive {
-    color: green;
-  }
-
-  &-negative {
-    color: red;
-  }
-
-  &-white {
-    color: white;
-  }
-
-  &-center {
-    text-align: center;
-  }
 }
 
 select {
