@@ -4,15 +4,16 @@ export const usePlayerStore = defineStore('player', {
   state: () => ({
     groupView: 'hive' as 'early' | 'hive',
     hideNonParticipants: true,
+    loadErrors: [] as string[],
     players: {} as { [playerId: string]: Player },
-    pendingReinfs: [] as string[],
+    pendingReinfs: [] as { playerId: string; reinfPlayerId: string }[],
   }),
   getters: {
     hasPlayers(state) {
       return Object.keys(state).length > 0;
     },
     nonReinforcedPlayers(): Player[] {
-      return this.playersByName.filter(({ isReinforced, isXxl }) => !isReinforced && !isXxl);
+      return this.playersByName.filter(({ isReinforced, isXxl, isExcluded }) => !isReinforced && !isXxl && !isExcluded);
     },
     participantPlayers(): Player[] {
       return this.playersByKeepLevel.filter(({ isParticipant }) => isParticipant);
@@ -64,7 +65,10 @@ export const usePlayerStore = defineStore('player', {
     add(playerData: Player) {
       this.players[playerData.id] = playerData;
       [...playerData.mountainReinforcements, ...playerData.hiveReinforcements].forEach((playerId) => {
-        this.pendingReinfs.push(playerId);
+        this.pendingReinfs.push({
+          playerId: playerData.id,
+          reinfPlayerId: playerId,
+        });
       })
     },
     autoReinforce() {
@@ -83,10 +87,6 @@ export const usePlayerStore = defineStore('player', {
           }
           return player.keepLevel - keepLevel >= 1;
         });
-
-        if (player.name.includes('Wolverriny')) {
-          debugger;
-        }
 
         const { marches } = player;
 
@@ -112,14 +112,26 @@ export const usePlayerStore = defineStore('player', {
       delete this.players[playerId];
     },
     processPendingReinfs() {
-      this.pendingReinfs.forEach((playerId) => {
-        this.players[playerId].isReinforced = true;
+      this.pendingReinfs.forEach(({ playerId, reinfPlayerId }) => {
+        const player = this.players[playerId];
+        const reinfPlayer = this.players[reinfPlayerId];
+
+        if (!reinfPlayer) {
+          this.loadErrors.push(`Cannot find player with ID: ${reinfPlayerId} (Reinforced by ${this.players[playerId].name})`);
+          this.players[playerId].hiveReinforcements = player.hiveReinforcements.filter((id) => id !== reinfPlayerId);
+          this.players[playerId].mountainReinforcements = player.mountainReinforcements.filter((id) => id !== reinfPlayerId);
+        } else {
+          this.players[reinfPlayerId].isReinforced = true;
+        }
       })
       this.pendingReinfs = [];
     },
     reinforce(playerId: string, reinfPlayerId: string) {
       this.players[playerId][this.reinforcementGroup].push(reinfPlayerId);
       this.players[reinfPlayerId].isReinforced = true;
+    },
+    setExcluded(playerId: string, isExcluded: boolean) {
+      this.players[playerId].isExcluded = isExcluded;
     },
     setInEarlyGroup(playerId: string, isInEarlyGroup: boolean) {
       this.players[playerId].isInEarlyGroup = isInEarlyGroup;
@@ -133,7 +145,15 @@ export const usePlayerStore = defineStore('player', {
       player[this.reinforcementGroup].splice(playerIndex, 1);
       this.players[reinfPlayerId].isReinforced = false;
     },
-    updatePlayer(playerId: string, updates: { keepLevel?: number, name?: string }) {
+    updatePlayer(playerId: string, updates: { isExcluded?: boolean; isInEarlyGroup?: boolean; isReinforced?: boolean; keepLevel?: number, name?: string }) {
+      if (updates.isExcluded) {
+        updates.isReinforced = true;
+      }
+
+      if (updates.isInEarlyGroup) {
+        // TODO: handle situation where other reinforcements are in opposite group
+      }
+
       this.players[playerId] = {
         ...this.players[playerId],
         ...updates,

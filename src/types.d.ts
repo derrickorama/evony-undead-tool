@@ -1,6 +1,7 @@
 declare type Player = {
     hiveReinforcements: string[];
     id: string;
+    isExcluded: boolean;
     isInEarlyGroup: boolean;
     isParticipant: boolean;
     isReinforced: boolean;

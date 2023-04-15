@@ -10,7 +10,7 @@
     <tbody>
       <tr v-for="player in players" :key="player.name">
         <td>
-          <input type="checkbox" name="switch" role="switch" :checked="player.isParticipant"
+          <input v-if="!player.isExcluded" type="checkbox" name="switch" role="switch" :checked="player.isParticipant"
             @change="setParticipation($event, player.id)">
         </td>
         <td>
@@ -23,6 +23,7 @@
           <div class="row">
             <SizeXxl v-if="player.isXxl" />
             <ImageFilterHdr v-if="player.isInEarlyGroup" />
+            <AccountCancel v-if="player.isExcluded" />
           </div>
           <div v-if="!player.isReinforced" class="row items-center text-negative">
             <Alert class="mr-xs" /> Not reinforced
@@ -30,14 +31,15 @@
         </td>
         <td>
           <small class="row items-center text-grey">
-            <AccountGroup class="relative mr-xs" :size="20" style="top:-3px" /> {{ player.marches }} marches
+            <AccountGroup class="relative mr-xs" :size="20" style="top:-3px" /> {{ player.marches }} march{{
+              player.marches === 1 ? '' : 'es' }}
           </small>
-          <div class="mt-sm">
+          <div v-if="!player.isExcluded" class="mt-sm">
             <Reinforcement v-for="playerId in player[reinforcementGroup]" :player-id="player.id"
               :reinf-player-id="playerId" />
           </div>
           <PlayerSelector :class="{ 'q-mt-sm': player[reinforcementGroup].length }" :player-id="player.id"
-            :show-select="player.marches - player[reinforcementGroup].length > 0"
+            :show-select="player.marches - player[reinforcementGroup].length > 0 && !player.isExcluded"
             @select="playerStore.reinforce(player.id, $event)" />
         </td>
       </tr>
@@ -51,6 +53,7 @@ import { computed } from 'vue';
 import { usePlayerStore } from 'stores/player';
 import Alert from 'vue-material-design-icons/Alert';
 import AccountGroup from 'vue-material-design-icons/AccountGroup';
+import AccountCancel from 'vue-material-design-icons/AccountCancel';
 import ImageFilterHdr from 'vue-material-design-icons/ImageFilterHdr';
 import SizeXxl from 'vue-material-design-icons/SizeXxl';
 import EditButton from 'components/EditButton.vue';

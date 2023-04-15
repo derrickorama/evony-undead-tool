@@ -14,6 +14,16 @@
           Level
           <input type="text" name="level" required v-model="keepLevel">
         </label>
+        <article>
+          <label>
+            Exclude
+            <input type="checkbox" role="switch" :checked="player.isExcluded" @change="setExcluded">
+          </label>
+          <label>
+            Early Group
+            <input type="checkbox" role="switch" :checked="player.isInEarlyGroup" @change="setEarlyGroup">
+          </label>
+        </article>
         <div class="row justify-between">
           <div class="row items-center">
             <a href="#" class="text-negative" @click.prevent="showDeleteDialog = true">Delete</a>
@@ -41,8 +51,10 @@ const emit = defineEmits(['close']);
 const show = ref(true);
 const showDeleteDialog = ref(false);
 
-const name = ref(props.player.name);
+const isExcluded = ref(props.player.isExcluded);
+const isInEarlyGroup = ref(props.player.isInEarlyGroup);
 const keepLevel = ref(`${props.player.keepLevel}`);
+const name = ref(props.player.name);
 
 const playerStore = usePlayerStore();
 
@@ -52,7 +64,24 @@ function close() {
 }
 
 function save() {
-  playerStore.updatePlayer(props.player.id, { keepLevel: parseInt(keepLevel.value, 10), name: name.value });
+  playerStore.updatePlayer(props.player.id, {
+    isExcluded: isExcluded.value,
+    isInEarlyGroup: isInEarlyGroup.value,
+    keepLevel: parseInt(keepLevel.value, 10),
+    name: name.value
+  });
   close();
+}
+
+// TODO: optimize these functions, too similar
+
+function setEarlyGroup(event: Event) {
+  const input = <HTMLInputElement>event.target;
+  isInEarlyGroup.value = input.checked;
+}
+
+function setExcluded(event: Event) {
+  const input = <HTMLInputElement>event.target;
+  isExcluded.value = input.checked;
 }
 </script>

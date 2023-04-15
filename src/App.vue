@@ -12,8 +12,17 @@
         </div>
       </div>
     </div>
-    <NegativeBanner v-if="nonReinforcedPlayers.length" centered
-      :message="`${nonReinforcedPlayers.length} players are not reinforced`" />
+    <NegativeBanner v-if="nonReinforcedPlayers.length" centered>
+      <div>{{ nonReinforcedPlayers.length }} players are not reinforced</div>
+      <ul>
+        <li v-for="player in nonReinforcedPlayers">{{ player.name }}</li>
+      </ul>
+    </NegativeBanner>
+    <NegativeBanner v-if="loadErrors.length">
+      <ul>
+        <li v-for="error in loadErrors">{{ error }}</li>
+      </ul>
+    </NegativeBanner>
     <AutoReinforceButton />
     <article>
       <div class="row justify-between">
@@ -56,7 +65,7 @@ const group: Ref<'early' | 'hive'> = ref('early');
 
 const playerStore = usePlayerStore();
 
-const { groupView, nonReinforcedPlayers } = storeToRefs(playerStore);
+const { groupView, loadErrors, nonReinforcedPlayers } = storeToRefs(playerStore);
 
 
 </script>

@@ -12,9 +12,9 @@ const playerStore = usePlayerStore();
 
 const { playersByKeepLevel } = storeToRefs(playerStore);
 
-const rows = computed(() => playersByKeepLevel.value.map(({ id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, hiveReinforcements, mountainReinforcements }) => {
+const rows = computed(() => playersByKeepLevel.value.map(({ id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, isExcluded, hiveReinforcements, mountainReinforcements }) => {
   return {
-    id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, hiveReinforcements, mountainReinforcements
+    id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, isExcluded, hiveReinforcements, mountainReinforcements
   }
 }));
 </script>
