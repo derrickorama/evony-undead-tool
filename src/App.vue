@@ -23,7 +23,7 @@
         <li v-for="error in loadErrors">{{ error }}</li>
       </ul>
     </NegativeBanner>
-    <AutoReinforceButton />
+    <AutoReinforceButton v-if="false" />
     <article>
       <div class="row justify-between">
         <div class="mb-md">
