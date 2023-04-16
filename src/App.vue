@@ -12,12 +12,7 @@
         </div>
       </div>
     </div>
-    <NegativeBanner v-if="nonReinforcedPlayers.length" centered>
-      <div>{{ nonReinforcedPlayers.length }} players are not reinforced</div>
-      <ul>
-        <li v-for="player in nonReinforcedPlayers">{{ player.name }}</li>
-      </ul>
-    </NegativeBanner>
+    <NonReinforcedBanner />
     <NegativeBanner v-if="loadErrors.length">
       <ul>
         <li v-for="error in loadErrors">{{ error }}</li>
@@ -60,6 +55,7 @@ import PlanLoader from 'components/PlanLoader.vue';
 import PlanSaver from 'components/PlanSaver.vue';
 import PlayerTable from 'components/PlayerTable.vue';
 import TextList from 'components/TextList.vue';
+import NonReinforcedBanner from 'components/NonReinforcedBanner.vue';
 
 const group: Ref<'early' | 'hive'> = ref('early');
 
