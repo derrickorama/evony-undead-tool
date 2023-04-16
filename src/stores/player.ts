@@ -130,9 +130,6 @@ export const usePlayerStore = defineStore('player', {
       this.players[playerId][this.reinforcementGroup].push(reinfPlayerId);
       this.players[reinfPlayerId].isReinforced = true;
     },
-    setExcluded(playerId: string, isExcluded: boolean) {
-      this.players[playerId].isExcluded = isExcluded;
-    },
     setInEarlyGroup(playerId: string, isInEarlyGroup: boolean) {
       this.players[playerId].isInEarlyGroup = isInEarlyGroup;
     },
@@ -146,8 +143,13 @@ export const usePlayerStore = defineStore('player', {
       this.players[reinfPlayerId].isReinforced = false;
     },
     updatePlayer(playerId: string, updates: { isExcluded?: boolean; isInEarlyGroup?: boolean; isReinforced?: boolean; keepLevel?: number, name?: string }) {
-      if (updates.isExcluded) {
+      const player = this.players[playerId];
+
+      if (updates.isExcluded === true && player.isExcluded === false) {
         updates.isReinforced = true;
+      } else if (updates.isExcluded === false && player.isExcluded === true) {
+        // Restore the non-reinforced state
+        updates.isReinforced = false;
       }
 
       if (updates.isInEarlyGroup) {
