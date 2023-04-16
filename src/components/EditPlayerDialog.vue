@@ -14,6 +14,14 @@
           Level
           <input type="text" name="level" required v-model="keepLevel">
         </label>
+        <label>
+          Marches {{ marches }}
+          <select class="mb-sm text-body2" v-model="marches">
+            <option v-for="count in 6" :value="count" :selected="marches === count">
+              {{ count }}
+            </option>
+          </select>
+        </label>
         <article>
           <label>
             Exclude
@@ -54,6 +62,7 @@ const showDeleteDialog = ref(false);
 const isExcluded = ref(props.player.isExcluded);
 const isInEarlyGroup = ref(props.player.isInEarlyGroup);
 const keepLevel = ref(`${props.player.keepLevel}`);
+const marches = ref(props.player.marches);
 const name = ref(props.player.name);
 
 const playerStore = usePlayerStore();
@@ -68,6 +77,7 @@ function save() {
     isExcluded: isExcluded.value,
     isInEarlyGroup: isInEarlyGroup.value,
     keepLevel: parseInt(keepLevel.value, 10),
+    marches: parseInt(marches.value, 10),
     name: name.value
   });
   close();
