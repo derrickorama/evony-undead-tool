@@ -152,6 +152,17 @@ export const usePlayerStore = defineStore('player', {
         updates.isReinforced = false;
       }
 
+      if (updates.isInEarlyGroup !== player.isInEarlyGroup) {
+        // Remove all players they were reinforcing
+        [...player.hiveReinforcements, ...player.mountainReinforcements].forEach((reinfPlayerId) => {
+          this.players[reinfPlayerId].isReinforced = false;
+        })
+        player.hiveReinforcements = [];
+        player.mountainReinforcements = [];
+        // Switch to mode you switched the person to
+        this.groupView = updates.isInEarlyGroup ? 'early' : 'hive';
+      }
+
       if (updates.isInEarlyGroup) {
         // TODO: handle situation where other reinforcements are in opposite group
       }
