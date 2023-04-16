@@ -31,6 +31,10 @@
             Early Group
             <input type="checkbox" role="switch" :checked="player.isInEarlyGroup" @change="setEarlyGroup">
           </label>
+          <label>
+            XXL
+            <input type="checkbox" role="switch" :checked="player.isXxl" @change="setXxl">
+          </label>
         </article>
         <div class="row justify-between">
           <div class="row items-center">
@@ -61,6 +65,7 @@ const showDeleteDialog = ref(false);
 
 const isExcluded = ref(props.player.isExcluded);
 const isInEarlyGroup = ref(props.player.isInEarlyGroup);
+const isXxl = ref(props.player.isXxl);
 const keepLevel = ref(`${props.player.keepLevel}`);
 const marches = ref(props.player.marches);
 const name = ref(props.player.name);
@@ -76,6 +81,7 @@ function save() {
   playerStore.updatePlayer(props.player.id, {
     isExcluded: isExcluded.value,
     isInEarlyGroup: isInEarlyGroup.value,
+    isXxl: isXxl.value,
     keepLevel: parseInt(keepLevel.value, 10),
     marches: parseInt(marches.value, 10),
     name: name.value
@@ -93,5 +99,10 @@ function setEarlyGroup(event: Event) {
 function setExcluded(event: Event) {
   const input = <HTMLInputElement>event.target;
   isExcluded.value = input.checked;
+}
+
+function setXxl(event: Event) {
+  const input = <HTMLInputElement>event.target;
+  isXxl.value = input.checked;
 }
 </script>
