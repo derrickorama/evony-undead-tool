@@ -10,8 +10,8 @@
     <tbody>
       <tr v-for="player in players" :key="player.name">
         <td>
-          <input v-if="!player.isExcluded" type="checkbox" name="switch" role="switch" :checked="player.isParticipant"
-            @change="setParticipation($event, player.id)">
+          <input v-if="!player.isExcluded && !player.isOnHold" type="checkbox" name="switch" role="switch"
+            :checked="player.isParticipant" @change="setParticipation($event, player.id)">
         </td>
         <td>
           <div class="row items-end">
@@ -24,6 +24,7 @@
             <SizeXxl v-if="player.isXxl" />
             <ImageFilterHdr v-if="player.isInEarlyGroup" />
             <AccountCancel v-if="player.isExcluded" />
+            <Sleep v-if="player.isOnHold" />
           </div>
           <div v-if="!player.isReinforced" class="row items-center text-negative">
             <Alert class="mr-xs" /> Not reinforced
@@ -39,7 +40,7 @@
               :reinf-player-id="playerId" />
           </div>
           <PlayerSelector :class="{ 'q-mt-sm': player[reinforcementGroup].length }" :player-id="player.id"
-            :show-select="player.marches - player[reinforcementGroup].length > 0 && !player.isExcluded"
+            :show-select="player.marches - player[reinforcementGroup].length > 0 && !player.isExcluded && !player.isOnHold"
             @select="playerStore.reinforce(player.id, $event)" />
         </td>
       </tr>
@@ -56,6 +57,7 @@ import AccountGroup from 'vue-material-design-icons/AccountGroup';
 import AccountCancel from 'vue-material-design-icons/AccountCancel';
 import ImageFilterHdr from 'vue-material-design-icons/ImageFilterHdr';
 import SizeXxl from 'vue-material-design-icons/SizeXxl';
+import Sleep from 'vue-material-design-icons/Sleep';
 import EditButton from 'components/EditButton.vue';
 import PlayerSelector from 'components/PlayerSelector.vue';
 import Reinforcement from 'components/Reinforcement.vue';

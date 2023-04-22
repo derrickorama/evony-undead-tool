@@ -3,6 +3,7 @@ declare type Player = {
     id: string;
     isExcluded: boolean;
     isInEarlyGroup: boolean;
+    isOnHold: boolean;
     isParticipant: boolean;
     isReinforced: boolean;
     isXxl: boolean;
@@ -10,6 +11,7 @@ declare type Player = {
     marches: number;
     mountainReinforcements: string[];
     name: string;
+    notes: string;
     reinforcements: string[];
 }
 

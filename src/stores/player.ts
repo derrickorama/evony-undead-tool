@@ -142,7 +142,7 @@ export const usePlayerStore = defineStore('player', {
       player[this.reinforcementGroup].splice(playerIndex, 1);
       this.players[reinfPlayerId].isReinforced = false;
     },
-    updatePlayer(playerId: string, updates: { isExcluded?: boolean; isInEarlyGroup?: boolean; isReinforced?: boolean; keepLevel?: number, name?: string }) {
+    updatePlayer(playerId: string, updates: { isExcluded?: boolean; isInEarlyGroup?: boolean; isOnHold?: boolean, isReinforced?: boolean; isXxl?: boolean; keepLevel?: number, name?: string, notes?: string }) {
       const player = this.players[playerId];
 
       if (updates.isExcluded === true && player.isExcluded === false) {
@@ -166,6 +166,8 @@ export const usePlayerStore = defineStore('player', {
       if (updates.isInEarlyGroup) {
         // TODO: handle situation where other reinforcements are in opposite group
       }
+
+      console.log('notes:', notes)
 
       this.players[playerId] = {
         ...this.players[playerId],

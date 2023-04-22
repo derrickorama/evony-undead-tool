@@ -68,8 +68,33 @@
 
 .my {
   &-none {
-    margin-top: 0;
     margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  &-xs {
+    margin-bottom: $size-xs;
+    margin-top: $size-xs;
+  }
+
+  &-sm {
+    margin-bottom: $size-sm;
+    margin-top: $size-sm;
+  }
+
+  &-md {
+    margin-bottom: $size-md;
+    margin-top: $size-md;
+  }
+
+  &-lg {
+    margin-bottom: $size-lg;
+    margin-top: $size-lg;
+  }
+
+  &-xl {
+    margin-bottom: $size-xl;
+    margin-top: $size-xl;
   }
 }
 

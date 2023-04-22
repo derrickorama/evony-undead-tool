@@ -22,10 +22,16 @@
             </option>
           </select>
         </label>
-        <article>
+        <article class="my-xl">
           <label>
             Exclude
-            <input type="checkbox" role="switch" :checked="player.isExcluded" @change="setExcluded">
+            <input type="checkbox" role="switch" :checked="player.isExcluded"
+              @change="setValueFromTarget($event, 'isExcluded')">
+          </label>
+          <label>
+            On Hold
+            <input type="checkbox" role="switch" :checked="player.isOnHold"
+              @change="setValueFromTarget($event, 'isOnHold')">
           </label>
           <label>
             Early Group
@@ -34,6 +40,13 @@
           <label>
             XXL
             <input type="checkbox" role="switch" :checked="player.isXxl" @change="setXxl">
+          </label>
+        </article>
+        <article class="my-xl">
+          - {{ notes }}
+          <label>
+            Notes
+            <textarea class="notes full-width" @change="setValueFromTarget($event, 'notes')">{{ notes }}</textarea>
           </label>
         </article>
         <div class="row justify-between">
@@ -65,10 +78,12 @@ const showDeleteDialog = ref(false);
 
 const isExcluded = ref(props.player.isExcluded);
 const isInEarlyGroup = ref(props.player.isInEarlyGroup);
+const isOnHold = ref(props.player.isOnHold)
 const isXxl = ref(props.player.isXxl);
 const keepLevel = ref(`${props.player.keepLevel}`);
 const marches = ref(props.player.marches);
 const name = ref(props.player.name);
+const notes = ref(props.player.notes);
 
 const playerStore = usePlayerStore();
 
@@ -79,30 +94,45 @@ function close() {
 
 function save() {
   playerStore.updatePlayer(props.player.id, {
+    isOnHold: isOnHold.value,
     isExcluded: isExcluded.value,
     isInEarlyGroup: isInEarlyGroup.value,
     isXxl: isXxl.value,
     keepLevel: parseInt(keepLevel.value, 10),
     marches: parseInt(marches.value, 10),
-    name: name.value
+    name: name.value,
+    notes: notes.value,
   });
   close();
 }
 
-// TODO: optimize these functions, too similar
+function setValueFromTarget(event: Event, type: 'isInEarlyGroup' | 'isOnHold' | 'isExcluded' | 'isXxl' | 'notes') {
+  const input = typeof event.target === HTMLInputElement ? <HTMLInputElement>event.target : <HTMLTextAreaElement>event.target;
+  const value = typeof input === HTMLInputElement ? input.checked : input.value;
 
-function setEarlyGroup(event: Event) {
-  const input = <HTMLInputElement>event.target;
-  isInEarlyGroup.value = input.checked;
-}
-
-function setExcluded(event: Event) {
-  const input = <HTMLInputElement>event.target;
-  isExcluded.value = input.checked;
-}
-
-function setXxl(event: Event) {
-  const input = <HTMLInputElement>event.target;
-  isXxl.value = input.checked;
+  switch (type) {
+    case 'isInEarlyGroup':
+      isInEarlyGroup.value = value;
+      break;
+    case 'isOnHold':
+      isOnHold.value = value;
+      break;
+    case 'isExcluded':
+      isExcluded.value = value;
+      break;
+    case 'isXxl':
+      isXxl.value = value;
+      break;
+    case 'notes':
+      notes.value = value;
+      break;
+    default:
+  }
 }
 </script>
+
+<style scoped lang="scss">
+.notes {
+  resize: vertical;
+}
+</style>
