@@ -25,6 +25,7 @@
             <ImageFilterHdr v-if="player.isInEarlyGroup" />
             <AccountCancel v-if="player.isExcluded" />
             <Sleep v-if="player.isOnHold" />
+            <City v-if="player.isNotEmpty" />
           </div>
           <div v-if="!player.isReinforced" class="row items-center text-negative">
             <Alert class="mr-xs" /> Not reinforced
@@ -35,7 +36,7 @@
             <AccountGroup class="relative mr-xs" :size="20" style="top:-3px" /> {{ player.marches }} march{{
               player.marches === 1 ? '' : 'es' }}
           </small>
-          <div v-if="!player.isExcluded" class="mt-sm">
+          <div v-if="!player.isExcluded && !player.isOnHold" class="mt-sm">
             <Reinforcement v-for="playerId in player[reinforcementGroup]" :player-id="player.id"
               :reinf-player-id="playerId" />
           </div>
@@ -55,6 +56,7 @@ import { usePlayerStore } from 'stores/player';
 import Alert from 'vue-material-design-icons/Alert';
 import AccountGroup from 'vue-material-design-icons/AccountGroup';
 import AccountCancel from 'vue-material-design-icons/AccountCancel';
+import City from 'vue-material-design-icons/City';
 import ImageFilterHdr from 'vue-material-design-icons/ImageFilterHdr';
 import SizeXxl from 'vue-material-design-icons/SizeXxl';
 import Sleep from 'vue-material-design-icons/Sleep';

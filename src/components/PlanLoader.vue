@@ -9,12 +9,12 @@ import { usePlayerStore } from 'stores/player';
 const playerStore = usePlayerStore();
 
 async function loadPlayers(rows: Array<any[]>) {
-  <['id', 'name', 'keepLevel', 'isParticipant', 'marches', 'isInEarlyGroup', 'isXxl', 'isOnHold', 'isExcluded', 'hiveReinforcements', 'mountainReinforcements', 'notes']>rows.shift();
+  <['id', 'name', 'keepLevel', 'isParticipant', 'marches', 'isInEarlyGroup', 'isXxl', 'isOnHold', 'isExcluded', 'isNotEmpty', 'hiveReinforcements', 'mountainReinforcements', 'notes']>rows.shift();
 
   playerStore.clear();
 
   rows.forEach((row: string[]) => {
-    const [id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, isOnHold, isExcluded, hiveReinforcements = '', mountainReinforcements = '', notes = ''] = row;
+    const [id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, isOnHold, isExcluded, isNotEmpty, hiveReinforcements = '', mountainReinforcements = '', notes = ''] = row;
 
     return playerStore.add(<Player>{
       isInEarlyGroup: isInEarlyGroup === 'true',
@@ -25,6 +25,7 @@ async function loadPlayers(rows: Array<any[]>) {
       hiveReinforcements: hiveReinforcements.trim() ? hiveReinforcements.split(',') : [],
       mountainReinforcements: mountainReinforcements.trim() ? mountainReinforcements.split(',') : [],
       isExcluded: isExcluded === 'true',
+      isNotEmpty: isNotEmpty === 'true',
       isOnHold: isOnHold === 'true',
       isParticipant: isParticipant === 'true',
       isReinforced: isXxl === 'true' || isExcluded === 'true', // flag as reinforced if XXL

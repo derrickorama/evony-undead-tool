@@ -13,7 +13,7 @@ export const usePlayerStore = defineStore('player', {
       return Object.keys(state).length > 0;
     },
     nonReinforcedPlayers(): Player[] {
-      return this.playersByName.filter(({ isReinforced, isXxl, isExcluded }) => !isReinforced && !isXxl && !isExcluded);
+      return this.playersByName.filter(({ isReinforced, isXxl, isExcluded, isOnHold }) => !isReinforced && !isXxl && !isExcluded && !isOnHold);
     },
     participantPlayers(): Player[] {
       return this.playersByKeepLevel.filter(({ isParticipant }) => isParticipant);
@@ -142,12 +142,16 @@ export const usePlayerStore = defineStore('player', {
       player[this.reinforcementGroup].splice(playerIndex, 1);
       this.players[reinfPlayerId].isReinforced = false;
     },
-    updatePlayer(playerId: string, updates: { isExcluded?: boolean; isInEarlyGroup?: boolean; isOnHold?: boolean, isReinforced?: boolean; isXxl?: boolean; keepLevel?: number, name?: string, notes?: string }) {
+    updatePlayer(playerId: string, updates: { isExcluded?: boolean; isInEarlyGroup?: boolean; isNotEmpty?: boolean; isOnHold?: boolean, isParticipant?: boolean; isReinforced?: boolean; isXxl?: boolean; keepLevel?: number, name?: string, notes?: string }) {
       const player = this.players[playerId];
+      const isNowExcluded = updates.isExcluded === true && player.isExcluded === false || updates.isOnHold === true && player.isOnHold === false;
+      const isNowIncluded = updates.isExcluded === false && player.isExcluded === true || updates.isOnHold === false && player.isOnHold === true;
 
-      if (updates.isExcluded === true && player.isExcluded === false) {
+      if (isNowExcluded) {
         updates.isReinforced = true;
-      } else if (updates.isExcluded === false && player.isExcluded === true) {
+        updates.isInEarlyGroup = false;
+        updates.isParticipant = false;
+      } else if (isNowIncluded) {
         // Restore the non-reinforced state
         updates.isReinforced = false;
       }
@@ -166,8 +170,6 @@ export const usePlayerStore = defineStore('player', {
       if (updates.isInEarlyGroup) {
         // TODO: handle situation where other reinforcements are in opposite group
       }
-
-      console.log('notes:', notes)
 
       this.players[playerId] = {
         ...this.players[playerId],

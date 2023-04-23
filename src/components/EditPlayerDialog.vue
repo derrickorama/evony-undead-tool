@@ -25,25 +25,27 @@
         <article class="my-xl">
           <label>
             Exclude
-            <input type="checkbox" role="switch" :checked="player.isExcluded"
-              @change="setValueFromTarget($event, 'isExcluded')">
+            <input type="checkbox" role="switch" :checked="isExcluded" @change="setValueFromTarget($event, 'isExcluded')">
           </label>
           <label>
             On Hold
-            <input type="checkbox" role="switch" :checked="player.isOnHold"
-              @change="setValueFromTarget($event, 'isOnHold')">
+            <input type="checkbox" role="switch" :checked="isOnHold" @change="setValueFromTarget($event, 'isOnHold')">
           </label>
           <label>
             Early Group
-            <input type="checkbox" role="switch" :checked="player.isInEarlyGroup" @change="setEarlyGroup">
+            <input type="checkbox" role="switch" :checked="player.isInEarlyGroup"
+              @change="setValueFromTarget($event, 'isInEarlyGroup')">
           </label>
           <label>
             XXL
             <input type="checkbox" role="switch" :checked="player.isXxl" @change="setXxl">
           </label>
+          <label>
+            Not Emptying Keep
+            <input type="checkbox" role="switch" :checked="isNotEmpty" @change="setValueFromTarget($event, 'isNotEmpty')">
+          </label>
         </article>
         <article class="my-xl">
-          - {{ notes }}
           <label>
             Notes
             <textarea class="notes full-width" @change="setValueFromTarget($event, 'notes')">{{ notes }}</textarea>
@@ -78,6 +80,7 @@ const showDeleteDialog = ref(false);
 
 const isExcluded = ref(props.player.isExcluded);
 const isInEarlyGroup = ref(props.player.isInEarlyGroup);
+const isNotEmpty = ref(props.player.isNotEmpty);
 const isOnHold = ref(props.player.isOnHold)
 const isXxl = ref(props.player.isXxl);
 const keepLevel = ref(`${props.player.keepLevel}`);
@@ -94,6 +97,7 @@ function close() {
 
 function save() {
   playerStore.updatePlayer(props.player.id, {
+    isNotEmpty: isNotEmpty.value,
     isOnHold: isOnHold.value,
     isExcluded: isExcluded.value,
     isInEarlyGroup: isInEarlyGroup.value,
@@ -106,13 +110,16 @@ function save() {
   close();
 }
 
-function setValueFromTarget(event: Event, type: 'isInEarlyGroup' | 'isOnHold' | 'isExcluded' | 'isXxl' | 'notes') {
-  const input = typeof event.target === HTMLInputElement ? <HTMLInputElement>event.target : <HTMLTextAreaElement>event.target;
-  const value = typeof input === HTMLInputElement ? input.checked : input.value;
+function setValueFromTarget(event: Event, type: 'isInEarlyGroup' | 'isNotEmpty' | 'isOnHold' | 'isExcluded' | 'isXxl' | 'notes') {
+  const input = event.target instanceof HTMLInputElement ? <HTMLInputElement>event.target : <HTMLTextAreaElement>event.target;
+  const value = input instanceof HTMLInputElement ? input.checked : input.value;
 
   switch (type) {
     case 'isInEarlyGroup':
       isInEarlyGroup.value = value;
+      break;
+    case 'isNotEmpty':
+      isNotEmpty.value = value;
       break;
     case 'isOnHold':
       isOnHold.value = value;

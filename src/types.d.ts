@@ -3,6 +3,7 @@ declare type Player = {
     id: string;
     isExcluded: boolean;
     isInEarlyGroup: boolean;
+    isNotEmpty: boolean;
     isOnHold: boolean;
     isParticipant: boolean;
     isReinforced: boolean;
