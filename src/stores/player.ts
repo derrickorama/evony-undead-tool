@@ -10,7 +10,7 @@ export const usePlayerStore = defineStore('player', {
   }),
   getters: {
     hasPlayers(state) {
-      return Object.keys(state).length > 0;
+      return Object.keys(state.players).length > 0;
     },
     nonReinforcedPlayers(): Player[] {
       return this.playersByName.filter(({ isReinforced, isXxl, isExcluded, isOnHold }) => !isReinforced && !isXxl && !isExcluded && !isOnHold);
@@ -156,13 +156,16 @@ export const usePlayerStore = defineStore('player', {
         updates.isReinforced = false;
       }
 
-      if (updates.isInEarlyGroup !== player.isInEarlyGroup) {
+      if (isNowExcluded) {
         // Remove all players they were reinforcing
         [...player.hiveReinforcements, ...player.mountainReinforcements].forEach((reinfPlayerId) => {
           this.players[reinfPlayerId].isReinforced = false;
         })
         player.hiveReinforcements = [];
         player.mountainReinforcements = [];
+      }
+
+      if (updates.isInEarlyGroup !== player.isInEarlyGroup) {
         // Switch to mode you switched the person to
         this.groupView = updates.isInEarlyGroup ? 'early' : 'hive';
       }
