@@ -38,7 +38,7 @@
           </label>
           <label>
             XXL
-            <input type="checkbox" role="switch" :checked="player.isXxl" @change="setXxl">
+            <input type="checkbox" role="switch" :checked="player.isXxl" @change="setValueFromTarget($event, 'isXxl')">
           </label>
           <label>
             Not Emptying Keep
