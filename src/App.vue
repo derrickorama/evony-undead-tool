@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="mt-xl text-center">Undead Invasion Reinforcment Management Tool</h1>
+    <h1 class="mt-xl text-center">Undead Invasion Reinforcement Management Tool</h1>
     <div class="row">
       <PlanLoader class="full-width mb-none mr-sm" />
       <div class="row">
