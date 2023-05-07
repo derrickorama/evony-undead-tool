@@ -26,6 +26,7 @@
             <AccountCancel v-if="player.isExcluded" />
             <Sleep v-if="player.isOnHold" />
             <City v-if="player.isNotEmpty" />
+            <div v-if="player.isNotBubbled"  class="text-warning"><ShieldAlert /> Not Bubbled</div>
           </div>
           <div v-if="!player.isReinforced" class="row items-center text-negative">
             <Alert class="mr-xs" /> Not reinforced
@@ -58,6 +59,7 @@ import AccountGroup from 'vue-material-design-icons/AccountGroup';
 import AccountCancel from 'vue-material-design-icons/AccountCancel';
 import City from 'vue-material-design-icons/City';
 import ImageFilterHdr from 'vue-material-design-icons/ImageFilterHdr';
+import ShieldAlert from 'vue-material-design-icons/ShieldAlert';
 import SizeXxl from 'vue-material-design-icons/SizeXxl';
 import Sleep from 'vue-material-design-icons/Sleep';
 import EditButton from 'components/EditButton.vue';

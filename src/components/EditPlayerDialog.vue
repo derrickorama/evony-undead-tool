@@ -44,6 +44,10 @@
             Not Emptying Keep
             <input type="checkbox" role="switch" :checked="isNotEmpty" @change="setValueFromTarget($event, 'isNotEmpty')">
           </label>
+          <label>
+            Not Bubbled
+            <input type="checkbox" role="switch" :checked="isNotBubbled" @change="setValueFromTarget($event, 'isNotBubbled')">
+          </label>
         </article>
         <article class="my-xl">
           <label>
@@ -80,6 +84,7 @@ const showDeleteDialog = ref(false);
 
 const isExcluded = ref(props.player.isExcluded);
 const isInEarlyGroup = ref(props.player.isInEarlyGroup);
+const isNotBubbled = ref(props.player.isNotBubbled);
 const isNotEmpty = ref(props.player.isNotEmpty);
 const isOnHold = ref(props.player.isOnHold)
 const isXxl = ref(props.player.isXxl);
@@ -97,6 +102,7 @@ function close() {
 
 function save() {
   playerStore.updatePlayer(props.player.id, {
+    isNotBubbled: isNotBubbled.value,
     isNotEmpty: isNotEmpty.value,
     isOnHold: isOnHold.value,
     isExcluded: isExcluded.value,
@@ -110,13 +116,16 @@ function save() {
   close();
 }
 
-function setValueFromTarget(event: Event, type: 'isInEarlyGroup' | 'isNotEmpty' | 'isOnHold' | 'isExcluded' | 'isXxl' | 'notes') {
+function setValueFromTarget(event: Event, type: 'isInEarlyGroup' | 'isNotBubbled' | 'isNotEmpty' | 'isOnHold' | 'isExcluded' | 'isXxl' | 'notes') {
   const input = event.target instanceof HTMLInputElement ? <HTMLInputElement>event.target : <HTMLTextAreaElement>event.target;
   const value = input instanceof HTMLInputElement ? input.checked : input.value;
 
   switch (type) {
     case 'isInEarlyGroup':
       isInEarlyGroup.value = value;
+      break;
+    case 'isNotBubbled':
+    isNotBubbled.value = value;
       break;
     case 'isNotEmpty':
       isNotEmpty.value = value;

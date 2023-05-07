@@ -13,7 +13,7 @@ export const usePlayerStore = defineStore('player', {
       return Object.keys(state.players).length > 0;
     },
     nonReinforcedPlayers(): Player[] {
-      return this.playersByName.filter(({ isReinforced, isXxl, isExcluded, isOnHold }) => !isReinforced && !isXxl && !isExcluded && !isOnHold);
+      return this.playersByName.filter(({ isReinforced, isXxl, isExcluded, isNotBubbled, isOnHold }) => !isReinforced && !isXxl && !isExcluded && !isNotBubbled && !isOnHold);
     },
     participantPlayers(): Player[] {
       return this.playersByKeepLevel.filter(({ isParticipant }) => isParticipant);
@@ -144,8 +144,8 @@ export const usePlayerStore = defineStore('player', {
     },
     updatePlayer(playerId: string, updates: { isExcluded?: boolean; isInEarlyGroup?: boolean; isNotEmpty?: boolean; isOnHold?: boolean, isParticipant?: boolean; isReinforced?: boolean; isXxl?: boolean; keepLevel?: number, name?: string, notes?: string }) {
       const player = this.players[playerId];
-      const isNowExcluded = updates.isExcluded === true && player.isExcluded === false || updates.isOnHold === true && player.isOnHold === false;
-      const isNowIncluded = updates.isExcluded === false && player.isExcluded === true || updates.isOnHold === false && player.isOnHold === true;
+      const isNowExcluded = updates.isExcluded === true && player.isExcluded === false || updates.isOnHold === true && player.isOnHold === false || updates.isNotBubbled === true && player.isNotBubbled === false;
+      const isNowIncluded = updates.isExcluded === false && player.isExcluded === true || updates.isOnHold === false && player.isOnHold === true || updates.isNotBubbled === false && player.isNotBubbled === true;
 
       if (isNowExcluded) {
         updates.isReinforced = true;
