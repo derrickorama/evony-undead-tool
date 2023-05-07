@@ -1,6 +1,6 @@
 <template>
   <div>
-    <select v-if="showSelect" class="mb-sm text-body2" @change="onSelect">
+    <select v-if="showSelect && playerOptions.length" class="mb-sm text-body2" @change="onSelect">
       <option value="">Select a Player</option>
       <optgroup label="Non-Reinforced Players">
         <option v-for="reinfPlayer in playerOptions" :value="reinfPlayer.id">
