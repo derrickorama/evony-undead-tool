@@ -1,10 +1,8 @@
 import mitt from 'mitt';
-import { createApp, defineComponent } from 'vue';
+import { createApp } from 'vue';
 import Toast from 'components/Toast.vue';
 
-type onHideFunction = () => void;
-
-export default function useToast({ message = '', onHide: onHideFunction = () => { }, persistent = false }) {
+export default function useToast({ message = '', onHide: onHideFunction = () => undefined, persistent = false }) {
   const div = document.createElement('div');
   document.body.appendChild(div);
 
@@ -18,7 +16,10 @@ export default function useToast({ message = '', onHide: onHideFunction = () => 
 
   const instance = app.mount(div);
 
-  emitter.on('hide', () => app.unmount());
+  emitter.on('hide', () => {
+    onHideFunction();
+    app.unmount();
+  });
 
   return {
     async show() {

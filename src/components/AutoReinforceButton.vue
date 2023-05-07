@@ -1,8 +1,11 @@
 <template>
   <div class="full-width row justify-end mb-md">
-    <a class="pa-sm text-body2" :class="{ 'disabled': !hasPlayers }" href="#" role="button"
-      @click.prevent="playerStore.autoReinforce()">Auto
-      Reinforce</a>
+    <a
+      class="pa-sm text-body2" :class="{ 'disabled': !hasPlayers }" href="#" role="button"
+      @click.prevent="playerStore.autoReinforce()"
+    >
+      Auto Reinforce
+    </a>
   </div>
 </template>
 

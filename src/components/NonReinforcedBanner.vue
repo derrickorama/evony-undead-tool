@@ -2,7 +2,9 @@
   <NegativeBanner v-if="nonReinforcedPlayers.length" centered>
     <div>{{ nonReinforcedPlayers.length }} players are not reinforced</div>
     <ul>
-      <li v-for="player in nonReinforcedPlayers">{{ player.name }} k.{{ player.keepLevel }}</li>
+      <li v-for="player in nonReinforcedPlayers" :key="player.id">
+        {{ player.name }} k.{{ player.keepLevel }}
+      </li>
     </ul>
   </NegativeBanner>
 </template>

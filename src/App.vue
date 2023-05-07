@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h1 class="mt-xl text-center">Undead Invasion Reinforcement Management Tool</h1>
+    <h1 class="mt-xl text-center">
+      Undead Invasion Reinforcement Management Tool
+    </h1>
     <div class="row">
       <PlanLoader class="full-width mb-none mr-sm" />
       <div class="row">
@@ -15,18 +17,31 @@
     <NonReinforcedBanner />
     <NegativeBanner v-if="loadErrors.length">
       <ul>
-        <li v-for="error in loadErrors">{{ error }}</li>
+        <li
+          v-for="(error, index) in loadErrors"
+          :key="index"
+        >
+          {{ error }}
+        </li>
       </ul>
     </NegativeBanner>
     <AutoReinforceButton v-if="false" />
     <article>
       <div class="row justify-between">
         <div class="mb-md">
-          <a href="#" class="mr-xl" :role="groupView === 'early' ? 'button' : undefined"
-            @click.prevent="playerStore.viewGroup('early')">
+          <a
+            href="#"
+            class="mr-xl"
+            :role="groupView === 'early' ? 'button' : undefined"
+            @click.prevent="playerStore.viewGroup('early')"
+          >
             <ImageFilterHdr /> Early Group
           </a>
-          <a href="#" :role="groupView === 'hive' ? 'button' : undefined" @click.prevent="playerStore.viewGroup('hive')">
+          <a
+            href="#"
+            :role="groupView === 'hive' ? 'button' : undefined"
+            @click.prevent="playerStore.viewGroup('hive')"
+          >
             <BeehiveOutline /> Hive Group
           </a>
         </div>
@@ -61,7 +76,7 @@ const group: Ref<'early' | 'hive'> = ref('early');
 
 const playerStore = usePlayerStore();
 
-const { groupView, loadErrors, nonReinforcedPlayers } = storeToRefs(playerStore);
+const { groupView, loadErrors } = storeToRefs(playerStore);
 
 
 </script>

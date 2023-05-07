@@ -3,20 +3,20 @@
 </template>
 
 <script setup lang="ts">
-import CSVLoader from 'components/CSVLoader.vue';
 import { usePlayerStore } from 'stores/player';
+import CSVLoader from 'components/CSVLoader.vue';
 
 const playerStore = usePlayerStore();
 
 async function loadPlayers(rows: Array<any[]>) {
-  <['id', 'name', 'keepLevel', 'isParticipant', 'marches', 'isInEarlyGroup', 'isXxl', 'isOnHold', 'isExcluded', 'isNotEmpty', 'isNotBubbled', 'hiveReinforcements', 'mountainReinforcements', 'notes']>rows.shift();
+  rows.shift(); // Remove column names
 
   playerStore.clear();
 
   rows.forEach((row: string[]) => {
     const [id, name, keepLevel, isParticipant, marches, isInEarlyGroup, isXxl, isOnHold, isExcluded, isNotEmpty, isNotBubbled, hiveReinforcements = '', mountainReinforcements = '', notes = ''] = row;
 
-    return playerStore.add(<Player>{
+    return playerStore.add({
       isInEarlyGroup: isInEarlyGroup === 'true',
       id,
       name,
@@ -29,12 +29,9 @@ async function loadPlayers(rows: Array<any[]>) {
       isNotEmpty: isNotEmpty === 'true',
       isOnHold: isOnHold === 'true',
       isParticipant: isParticipant === 'true',
-      isReinforced: isXxl === 'true' || isExcluded === 'true' || isNotBubbled === 'true', // flag as reinforced if XXL
       isXxl: isXxl === 'true',
       notes,
     });
-  })
-
-  playerStore.processPendingReinfs();
+  });
 }
 </script>
